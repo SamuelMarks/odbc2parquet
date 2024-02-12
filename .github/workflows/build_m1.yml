@@ -1,0 +1,29 @@
+name: Build on M1
+
+on: [push, pull_request]
+
+jobs:
+  release_m1:
+    name: Build and release macos M1
+    runs-on: flyci-macos-14-m1
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install latests rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          default: true
+          override: true
+
+      - name: Build
+        run: cargo build --release
+
+      - name: Github Upload
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file: target/release/odbc2parquet
+          asset_name: odbc2parquet-macos-m1
+          tag: ${{ github.ref }}
