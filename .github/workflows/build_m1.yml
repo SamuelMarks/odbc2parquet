@@ -18,6 +18,11 @@ jobs:
           default: true
           override: true
 
+      - name: Install Unix ODBC
+        run: |
+          brew install unixodbc
+          sudo ln -s /opt/homebrew/lib ~/lib
+
       - name: Build
         run: cargo build --release
 
